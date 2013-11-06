@@ -1,0 +1,54 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+li#login-dropdown-list{
+	margin-top: 15px;
+	margin-left: 100px;
+}
+div.dropdown-menu{
+	margin: 10px 10px 10px 10px;
+}
+div.navbar-collapse{
+	overflow:auto;
+	max-height: 400px;
+}
+.title{
+	text-align: center;
+}
+.col-md-6{
+	padding-left: 50px;
+	padding-right: 50px;
+	text-align: center;
+}
+textarea#description, textarea#message{
+	width: 100%;
+}
+form#newIdea, form#chatForm{
+	margin-top: 20px;
+	background: rgb(220, 220, 220);
+	padding-top: 20px;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	padding-right: 20px;
+	border-radius: 10px;
+}
+footer{
+	text-align: center;
+}
+div.idea{
+	text-align: left;
+	margin-left: 10%;
+}
+#closeNewIdea{
+	float:right;
+}
+a.action{
+	margin-right: 10px;
+}
+div#messages{
+	border: 1px solid black;
+}
+div.alert{
+	margin-top: 20px;
+}

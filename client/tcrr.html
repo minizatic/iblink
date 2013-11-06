@@ -1,0 +1,198 @@
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TCRR Game Design Site</title>
+</head>
+<body>
+	{{>navbar}}
+	{{>starter}}
+	{{>main}}
+</body>
+<template name="starter">
+{{#if onHomepage}}
+
+	    <!-- Main jumbotron for a primary marketing message or call to action -->
+	    <div class="jumbotron">
+	      <div class="container">
+	        <h1>iblink</h1>
+	        <p>This site is an interactive, real-time, idea collaboration platform.</p>
+<!-- 	        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p> -->
+	      </div>
+	    </div>
+
+	    <div class="container">
+	      <!-- Example row of columns -->
+	      <div class="row">
+	        <div class="col-lg-4">
+	          <h2>Suggest Brilliant Ideas</h2>
+	          <p>Share your ideas on and get feedback and votes from your peers.</p>
+	        </div>
+	        <div class="col-lg-4">
+	          <h2>Vote On the Best Ideas</h2>
+	          <p>Find the best ideas for the real thing by voting, allowing you to see the most popular ideas at a glance.</p>
+	       </div>
+	        <div class="col-lg-4">
+	          <h2>Discuss Propositions in real-time</h2>
+	          <p>Share preliminary thoughts and concerns with each other with the real-time chat feature.</p>
+	        </div>
+	      </div>
+
+	      <hr>
+
+	      <footer>
+	        <p>&copy; Blake Patches 2013</p>
+	      </footer>
+	    </div> <!-- /container -->
+{{/if}}
+</template>
+
+<template name="main">
+{{#if loggedIn}}
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="title">iblink</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 left">
+			<h2 class="title">My Ideas</h3>
+			<hr>
+			{{>myIdeas}}
+		</div>
+  		<div class="col-md-6 right">
+  			<h2 class="title">Everybody's Ideas</h3>
+  			<hr>
+  			{{>allIdeas}}
+  		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="title">Chat</h2>
+			{{>chat}}
+		</div>
+	</div>
+	<hr>
+
+	      <footer>
+	        <p>&copy; Blake Patches 2013</p>
+	      </footer>
+{{/if}}
+</template>
+
+<template name="navbar">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#">iblink</a>
+	        </div>
+	        <div class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+	            <li class="active"><a href="#">Home</a></li>
+	            <li>{{ loginButtons align="right"}}</li>
+	          </ul>
+	        </div><!--/.navbar-collapse -->
+	      </div>
+	    </div>
+</template>
+
+<template name="myIdeas">
+	{{#if ideas}}
+	{{#each ideas}}
+	<div class="mine idea" id="{{_id}}">
+		<h3><b>{{title}}</b></h3>
+		<p>{{description}}</p>
+		<p>By <b>{{author}}</b> on <b>{{date}}</b></p>
+		{{#if votes}}<p><span class="badge">{{votes.length}}</span> upvotes</p>{{/if}}
+		<p><a class="btn btn-sm btn-danger deleteIdea action">Delete</a><a class="btn btn-sm btn-info editIdea action">Edit</a></p>
+	</div>
+	{{/each}}
+	{{else}}
+	<h4>You haven't posted any ideas yet.</h4>
+	{{/if}}
+	<hr>
+	<a class="btn btn-primary" id="newIdea">Give an Idea</a>
+	{{#if clickedNew}}
+	<form class="form-horizontal" role="form" id="newIdea">
+	<button type="button" class="close" id="closeNewIdea" aria-hidden="true">&times;</button>
+  <div class="form-group">
+    <label for="inputTitle" class="col-lg-2 control-label">Title</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="inputTitle" placeholder="Idea Name..." value="{{editTitle}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-lg-2 control-label">Description</label>
+    <div class="col-lg-10">
+      <textarea id="description">{{editDescription}}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <button type="submit" id="postIdea" class="btn btn-success">Share Idea</button>
+    </div>
+  </div>
+</form>
+<div class="ideaError"></div>
+	{{/if}}
+</template>
+
+<template name="allIdeas">
+	{{#if ideas}}
+	{{#each ideas}}
+	<div class="idea" id="{{_id}}">
+		<h3><b>{{title}}</b></h3>
+		<p>{{description}}</p>
+		<p>By <b>{{author}}</b> on <b>{{date}}</b></p>
+		{{#if votes}}<p><span class="badge">{{votes.length}}</span> upvotes</p>{{/if}}
+		<p><a class="btn btn-primary upvote action">Upvote</a></p>
+	</div>
+	{{/each}}
+	{{else}}
+	<h4>Nobody's posted any ideas yet.</h4>
+	{{/if}}
+</template>
+
+<template name="chat">
+	<div class="col-md-6 left">
+		<h3>Messages</h3>
+		<div id="messages">
+		{{#each messages}}
+		<p><b>{{user}}</b>: {{message}}</p>
+		{{/each}}
+		</div>
+<form class="form-horizontal" id="chatForm" role="form">
+  <div class="form-group">
+    <label for="message" class="col-lg-2 control-label">Message</label>
+    <div class="col-lg-10">
+      <textarea id="message"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <button type="submit" id="postChat" class="btn btn-success">Chat</button>
+    </div>
+  </div>
+</form>
+<div class="chatError"></div>
+	</div>
+	<div class="col-md-6 right">
+		<h3>Who's Online?</h3>
+		<hr>
+		{{#each users}}
+		<span class="label label-success">{{username}}</span>
+		{{/each}}	
+	</div>
+</template>
+
+<template name="error">
+	<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  {{error}}
+</div>
+</template>
